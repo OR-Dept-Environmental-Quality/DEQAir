@@ -13,7 +13,7 @@ source("make_graphs.R")
 stn_info <- read.csv("data/stn_info.csv", stringsAsFactors = FALSE)
 stn_info$stn_id <- as.numeric(stn_info$stn_id)
 stn_info$latitude <- as.numeric(stn_info$latitude)
-stations <- list(410510080, 410670005, 410670004, 410512011, 
+stations <- c(410510080, 410670005, 410670004, 410512011, 
                  410090004, 410670111,410390059, 410030013, 410170120,
                  410290203, 410470041, 410330114, 410650007, 410130100)
 #stn_name <- hashmap(c(410510080, 410670005, 410670004, 410512011, 
@@ -46,6 +46,7 @@ web_file <- merge(web_file, file_e99, by= "dt_local", all = TRUE)
 web_file <- merge(web_file, file_sel, by= "dt_local", all = TRUE)
 web_file <- merge(web_file, file_bps, by = "dt_local", all = TRUE)
 write.csv(web_file, "data/site13_pm25_20190101_to_20200331.csv", row.names = FALSE)
+web_file <- read.csv("data/site13_pm25_20190101_to_20200331.csv", stringsAsFactors = FALSE)
 
 
 ### loop through all the stations
@@ -57,7 +58,7 @@ write.csv(web_file, "data/site13_pm25_20190101_to_20200331.csv", row.names = FAL
 ##  this for loop can be embedded in a pollutant loop to generate graphs for all pollutants of interest
 
 for (sta in stations) {
-  sta_name <- stn_info$code[stn_info == sta]
+  sta_name <- tolower(stn_info$code[stn_info$stn_id == sta])
   df10 <- get_stn_data(stn = sta, yrs_to_get)
   coln <- paste0(sta_name, "_pm25")
   df19 <- get_website_data("data/site13_pm25_20190101_to_20200331.csv", sta, coln )
@@ -72,7 +73,7 @@ for (sta in stations) {
   gr_ln
   gr_tl <- make_tile_graph(df_daily, "q1", tstr)
   gr_tl
-  fname_dly <- paste0("daily/", sta_name, "_daily_summary_201001-202003.csv")
+  fname_dly <- paste0("summaries/", sta_name, "_daily_summary_201001-202003.csv")
   write.csv(df_daily, fname_dly, row.names = FALSE)
   line_dly <- paste0("graphs/", sta_name, "_line_q12020.png")
   png(filename=line_dly, type="cairo", width = 900, height = 560)

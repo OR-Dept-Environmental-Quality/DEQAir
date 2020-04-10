@@ -1,0 +1,144 @@
+---
+title: "Oregon's Air Quality During COVID-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(leaflet)
+library(dplyr)
+library(tidyverse)
+library(htmltools)
+
+## create dataframe for boxplots
+weeks_to_plot <- 13
+hilit_year <- 2020
+graph_title <- "Week 13 PM2.5 boxplot"
+stn_info <- read.csv("data/stn_info.csv", stringsAsFactors = FALSE)
+stn_info$stn_id <- as.numeric(stn_info$stn_id)
+stn_info$latitude <- as.numeric(stn_info$latitude)
+
+stations <- list( 410670005, 410390059, 410510080, 410030013, 
+                  410470041, 410170120, 410330114, 410130100)
+
+fname <- paste0("summaries/", tolower(stn_info$code[stn_info$stn_id == 410510080]), "_pm25_weekly_summary_201001-202003.csv")
+df <- read.csv(fname, stringsAsFactors = FALSE)
+df_all <- df[FALSE, ]
+
+
+for (sta in stations) {
+  sta_name <- stn_info$code[stn_info$stn_id == sta]
+  fname_wkly <- paste0("summaries/", sta_name, "_pm25_weekly_summary_201001-202003.csv")
+  df_stn <- read.csv(fname_wkly, stringsAsFactors = FALSE)
+  df_all <- rbind(df_all, df_stn)
+}
+
+all_wk <- df_all[FALSE, ]
+for (wk in weeks_to_plot) {
+   wk_df <- filter(df_all, weeknum == wk)
+   all_wk <- rbind(all_wk, wk_df)
+}
+plot_df <- all_wk %>% filter(year != hilit_year)
+plot_df <- merge(plot_df, stn_info[, c("stn_id", "city")], all.x = TRUE)
+hilit_df <- all_wk %>% filter(year == hilit_year) 
+hilit_df <- merge(hilit_df, stn_info[, c("stn_id", "city")], all.x = TRUE)
+prev_df <- all_wk %>% filter(year == hilit_year - 1)
+prev_df <- merge(prev_df, stn_info[, c("stn_id", "city")], all.x = TRUE)
+prev4w_df <- df_all %>% filter(weeknum == weeks_to_plot[1] - 4) %>% filter(year == hilit_year) 
+prev4w_df <- merge(prev4w_df, stn_info[, c("stn_id", "city")], all.x = TRUE)
+
+g <- ggplot() +  
+       geom_boxplot(data = plot_df, aes(x = "", y = mean, group = city)) +
+       geom_point(data = hilit_df, aes(x = "", y = mean, group = city), col = "red", shape = 8, size = 4) + 
+       geom_point(data = prev_df, aes(x = "", y = mean, group = city), col = "darkgreen", shape = 8, size = 3) +
+       geom_point(data = prev4w_df, aes(x = "", y = mean,group = city), col = "blue", shape = 8, size = 3) +
+       theme_minimal() +
+       xlab("") + ylab("PM2.5 ug/m3") +
+       ggtitle(graph_title) + facet_wrap(~city) 
+
+
+## create map
+map_df <- read.csv("summaries/for_map_test.csv", stringsAsFactors = FALSE)
+map_df$pct_change <- (map_df$hilit_avg - map_df$decade_avg)*100/map_df$decade_avg
+map_df$pop <- paste0("Percent change for week 23th March was ", round(map_df$pct_change, 0), "%")
+
+pal <- colorNumeric(palette = "RdYlGn", domain = c(-30, 30), reverse = TRUE )
+
+
+t <- leaflet(map_df) %>% addProviderTiles(providers$Esri.WorldGrayCanvas) %>% setView(-122.67, 45, 6) 
+t <- t %>%  addCircleMarkers(
+                    ~long, ~lat, 
+                   color = ~pal(pct_change),
+                   popup = ~pop,
+                   label = ~city,
+                   radius = 9, 
+                   stroke = FALSE, 
+                   fillOpacity = 0.4 ) 
+
+
+
+```
+
+<details> <summary>
+<h2> Has Air Quality in Oregon changed after the "Stay Home, Save Lives" order? </h2>
+</summary>
+
+Here at Oregon DEQ, we have been hearing the question of if DEQ has seen changes in air quality after Governor Kate Brown's "Stay Home, Save Lives" Executive Order was announced Monday morning, March 23, 2020.
+
+It makes sense, right? If most Oregonians are staying home and not commuting to work, shouldn't air quality get better? Didn't China see reduced air pollution after strict quarantine measures were announced due to COVID-19?
+
+Turns out the answer is a little bit more complicated than looking at "before" and after pictures, or levels of pollution.
+
+The maps from China were based on satellite images of NOx, and then processed in a way to show the difference. You can look at satellite images from NASA Worldview [https://worldview.earthdata.nasa.gov/].
+
+It turns out that satellite data and image processing is quite involved and requires a lot more computing power than your friendly state employees have. What we do have access to are a statewide network of ambient air quality monitors that can give us close to real-time data at fairly fine-grained intervals (houry, daily, etc).
+
+Of all the pollutants that Oregon DEQ monitors, PM2.5 is a good candidate for measuring combustion related activity, both industrial and residential. A fraction of it is also diesel particulate matter. Newer engines and gasoline engines produce much less PM, if any. Oregon DEQ also has a fairly widespread network, so good coverage throughout the state.
+
+NOx is also a good measure of combustion related activities, and is a fairly good indicator for motor vehicles and big industrial sources, but we only have a few monitors for Nox in Oregon, and mostly in the Portland Metro area. 
+
+O3 (not the stuff in the upper atmosphere) is generated as a secondary pollutant through an atmospheric chemical reaction between NOx and VOCs, and also is only monitored in a few places in Oregon.
+</details>
+
+<details> <summary>
+<h2> PM2.5 </h2> </summary>
+
+The chart below shows a simple time series of measured PM2.5 levels at one monitor from the beginning of this year to last week in red. The closed circles are week days and open circles are weekends - we know readings on Tuesdays and Wednesdays, for instance, are generaly higher than for Mondays, Thursdays and Fridays, and those are higher than Saturdays in general. The grey area shows the 10th and 90th-percentile readings from the last ten years (2010-2019). 
+
+What we see from this chart are a couple of things: first, there is a background pattern of more variation in winter months (January and February) and a general decline in ambient PM2.5 levels from winter to spring. By April, air quality is usually pretty good.  Second, we see ambient Pm2.5 levels in 2020 start to drop by the weeks of March 9 and March 16, and more noticeably the week of March 23. This could be confounded by PM2.5 emissions from woodsmoke from residential wood heating, which would vary with temperature, and/or open burning, which is a common activity in many areas in early spring.
+
+[insert a chart of declining PM2.5 here with the 10-90 percentiles]
+
+DEQ decided to look at air quality before and after March 23, and also to compare that specific week in late March and early April with that same week in previous years.
+
+The map below compares air quality as measured by PM2.5 monitors to the average PM2.5 readings in the 4 weeks leading up to March 23 to the levels observed the week of march 23 - March 30. Green dots show areas where the air is indeed cleaner, yellow dots are areas of little to no change, and red dots are areas where the PM2.5 readings are higher than those observed in the weeks leading up to March 23.
+
+</details>
+
+```{r map, echo = FALSE}
+t
+
+```
+
+As you can see, most areas of the state show slight improvement or better. We'd have to look into what is happening in Corvallis and [other site].
+
+
+<details> <summary>
+<h2> By City </h2> </summary>
+
+The charts below show:
+* PM2.5 emissions the week immediately after the Stay Home order, March 23, 2020 - March 29, 2020 (red asterisk)
+* PM2.5 emissions the same week (week13) in 2019 (green asterisk), and 
+* the weekly average for 4 weeks prior (week 9) (blue asterisk)
+
+The box and whisker plots show the average (median?) (line), for the 10 years from 2010-2019. The box show the middle 50% of data (25%-75% of readings fall into that range for this week) and the whiskers show the lowest 10% and highest 90% reading. Together this gives you a sense of the range of readings.
+
+As you can see, for most sites, the readings the week for March 23-29 are in less than 10% of readings for this week in the previous 10 years. The Tualatin site, which is designed to capture near-road emissions, in particular, shows that last week was less than almost any readings at that monitor over the past 10 years. This coorelates with traffic data released by ODOT and other data [links?]
+
+
+```{r boxplot, echo = FALSE}
+g
+
+```
+
+</details>

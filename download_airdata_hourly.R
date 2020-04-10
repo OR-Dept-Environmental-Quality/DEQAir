@@ -46,13 +46,12 @@ download_airdata_hourly <- function(yrs_to_get, pollutants_to_get) {
       url <- paste0(base_url, file_tail)
       destfile <- paste0("data/hourly_", file_tail)
       download.file(url, destfile)
-      unzip(destfile)
+      unzip(destfile, exdir = "data")
     }
   }
-
-  for (pollutant in pollutants_to_get) 
+  for (pollutant in pollutants_to_get) {
     for (yr in yrs_to_get) {
-      file_tail <- paste0(pollutant_to_get, "_", yr)
+      file_tail <- paste0(pollutant, "_", yr)
       file_csv <- ".csv"
       file_feather <- ".feather"
       in_file <- paste0("data/hourly_", file_tail, file_csv)
@@ -62,5 +61,6 @@ download_airdata_hourly <- function(yrs_to_get, pollutants_to_get) {
       df2 <- filter(df1, State.Code == 41)
       write.csv(df2, out_file, row.names = FALSE )
       write_feather(df2, out_feather )
+    }
   }
 }
