@@ -5,6 +5,10 @@ library(ggplot2)
 #library(hashmap)    
 library(zeallot)    ## %<-% operator for multiple assignments
 
+source("get_monitor_data.R")
+source("create_summaries.R")
+source("make_graphs.R")
+
 ## global & convenience parameters set up
 stn_info <- read.csv("data/stn_info.csv", stringsAsFactors = FALSE)
 stn_info$stn_id <- as.numeric(stn_info$stn_id)
