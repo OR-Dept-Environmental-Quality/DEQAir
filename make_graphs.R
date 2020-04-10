@@ -2,7 +2,7 @@ library(dplyr)
 library(lubridate)
 library(feather)   ## feather is a format for fast read & write of large files
 library(ggplot2)
-library(hashmap)    
+#library(hashmap)    
 library(zeallot)    ## %<-% operator for multiple assignments
 
 ## global & convenience parameters set up
