@@ -1,0 +1,56 @@
+deq_id,code,desc,stn_id,address,city,county,region,latitude,longitude,elevation,start_date,stop_date,purpose,network
+32758,BFS,Baker City Forest Service,410010004,3285 11th St.,Baker City,Baker,ER,44.7882,-117.8446,1047,11/3/2005,Present,Forest Health,
+20478,CCB,Corvallis Circle Boulevard,410030013,1310 NW Circle Blvd,Corvallis,Benton,WR,44.5884,-123.2673,72.3,11/19/1998,Present,Requested by city,
+10093,SPR,Carus Spangler Road,410050004,13575 Spangler Rd.,Oregon City,Clackamas,NWR,45.2593,-122.588,173.4,10/1/1975,Present,Field Burning/Portland ozone,SLAMS - O3
+10094,MUL,Multorpor Ski Bowl,410050102,Chair lift Box 87,Government Camp,Clackamas,NWR,45.28856,-121.7827,1547,8/1/1982,Present,Visibility,
+14152,SIS,"Portland, Sauvie Island",410090004,Rt1 Box 4222 SS Beach,Sauvie Island,Multnomah,NWR,45.7685,-122.7721,6,9/1/1977,Present,Transport,SLAMS - O3
+31008,PDP,Prineville Davis Park,410130100,251 SE Court St.,Prineville,Crook,ER,44.3007,-120.8437,873,11/1/2008,Present,PM2.5 ,SLAMS -PM2.5
+31035,SFS,Sisters Forest Service,410170004,Cascade Hwy 20,Sisters,Deschutes,ER,44.2921,-121.5555,975,5/17/2011,Present,Forest Health,
+24172,BPS,Bend Pump Station,410170120,35 NW Portland St,Bend,Deschutes,ER,44.0633,-121.3127,1105.3,8/16/2000,Present,PM2.5 ,
+31007,BRD,Bend Road Department,410170122,"63095 DESCHUTES MARKET RD.,",Bend,Deschutes,ER,44.0219,-121.2602,1135,1/1/2008,Present,,
+32529,RGV,Roseburg Garden Valley,410190002,777 NW Garden,Roseburg,Douglas,WR,43.2266,-123.3647,136.2,8/23/2005,Present,Forest Health,
+10102,JDD,John Day  ,410230002,230 NE Dayton St,John Day,Grant,ER,44.418,-118.9513,939,2/14/2011,Present,Forest Health,
+31016,BWS,Burns Washington St.,410250003,458 E Washington St.,Burns,Harney,ER,43.5894,-119.0481,1268,9/16/2009,Present,PM2.5/Forest Health,SLAMS -PM2.5
+25161,SCH,"Shady Cove School, 37 SCHOOLHOUSE LANE",410290019,37 Schoolhouse Lane,Shady Cove,Jackson,WR,42.6232,-122.8102,438,3/19/2001,Present,Forest Health,
+20448,MGG,Medford Grant & Belmont,410290133,902 Grant Ave,Medford,Jackson,WR,42.3141,-122.8792,442.6,1/1/1999,Present,Shut down in March,SLAMS -PM2.5
+10109,TAL,"Medford at Talent, Rapp Lane",410290201,7112 Rapp Lane,Talent,Jackson,WR,42.2298,-122.7874,594,7/7/1992,Present,,SLAMS - O3
+31063,AFD,Ashland Fire Department (AFD) ,410290203,"455 Siskiyou Blvd, Ashland, OR 97520",Ashland,Jackson,WR,42.1941,-122.7086,596,7/12/2016,Present,Requested by city,
+10108,MTV,Medford KTVL 10,410291002,1440 Rossanly Dr,Medford,Jackson,WR,42.342,-122.9098,181.6,7/17/1996,Present,,
+10113,MWJ,Medford Welch & Jackson,410292129,711 Welch St,Medford,Jackson,WR,42.3315,-122.8803,418.5,7/20/1989,Present,Added PM2.5 and neph in March,SLAMS -PM2.5& PM10
+31006,MWS,Madras Westside School,410310007,410 SW 4th St.,Madras,Jefferson,ER,44.63061667,121.1316083,688,10/27/2008,Present,Field Burning,
+18432,PSO,Applegate Valley,410330011,14171 Williams,Provolt,Josephine,WR,42.2897,-123.2325,359,3/31/1998,Present,Forest Health,
+31036,CJFS,Cave Junction Forest Service,410330036,26568 Redwood Hwy,Cave Junction,Josephine,WR,42.1617,-123.64835,676,5/25/2011,Present,Forest Health,
+28859,GPP,Grants Pass Parkside School,410330114,735 SW Wagner M St.,Grants Pass,Josephine,WR,42.4341,-123.3489,277,7/19/2002,Present,PM2.5/Forest Health,SLAMS -PM2.5
+10118,KFP,Klamath Falls Peterson School,410350004,4856 Clinton St,Klamath Falls,Klamath,ER,42.1904,-121.7313,1244,1/20/1985,Present,PM2.5/Forest Health,SLAMS -PM2.5
+25634,CLM,Crater Lake Maintenance Center,410351002,751 Crater Lake Hwy,Unincorporated,Klamath,WR,42.8956,-122.1363,1965,6/6/2001,Present,Visibility,
+10123,LCM,Lakeview Center & M St,410370001,Center & M St,Lakeview,Lake,ER,42.1892,-120.354,1445,10/1/1991,Present,PM2.5,SLAMS -PM2.5
+31037,E99,Eugene Hwy 99,410390059,530 Hwy 99 North,Eugene,Lane,LRAPA,44.06722,-123.14135,123,7/1/2011,Present,PM2.5/PM10 site,SLAMS -PM2.5& PM10
+18524,EAP,Eugene Amazon Park,410390060,499 E 29TH,Eugene,Lane,LRAPA,44.02631,-123.08374,133,1/1/1985,Present,PM2.5,SLAMS -PM2.5
+,EWD,Eugene Wilkes Drive,410390101,,Eugene,Lane,LRAPA,,,,,Present,,
+18315,SAG,Saginaw,410391007,79980 DELIGHT VALLEY SCHOOL RD,Eugene,Lane,LRAPA,43.8345,-123.0353,184,1/1/1985,Present,,
+18538,SCH,Springfield City Hall,410391009,225 N 5TH,Springfield,Lane,LRAPA,44.0467,-123.0177,140,10/18/1970,Present,local site,
+18733,OAK,Oakridge,410392013,47674 SCHOOL ST,Oakridge,Lane,LRAPA,43.74435,-122.48049,344,1/1/1989,Present,PM2.5,SLAMS -PM2.5& PM10
+31004,CGC,Cottage Grove City Shops,410399004,425 N 14th ,Cottage Grove,Lane,LRAPA,43.7995,-123.05349,196,1/1/2008,Present,,SLAMS -PM2.5
+21886,ACS,Calapooia Middle School,410430009,830 SE 24th,Albany,Linn,WR,44.6156,-123.0916,72.12,10/27/1999,Present,,
+31064,MCS,Mill City Santiam High School,410430104,Forest Service Ranger Station,Mill City,Linn,WR,44.75209,-122.47967,253,6/15/2015,Present,,
+31001,SFD,Sweet Home Fire Department,410432002,1099 Long St,Sweet Home,Linn,WR,44.3958,-122.7299,164,4/3/2007,Present,,
+10126,LMS,Lyons Marilynn School,410432003,741 5th St,Lyons,Marion,WR,44.7788,-122.6169,200,7/8/1993,Present,,
+10130,CJH,Turner Cascade Jr. High School,410470004,10226 Marion Rd SE,Turner,Marion,WR,44.81,-122.9141,101.9,1/1/1981,Present,,SLAMS - O3
+31023,SJW,Silverton ,410470007,James & Western,Silverton,Marion,WR,45.014998,-122.790382,68,,Present,,
+31929,SSH,Salem State Hospital,410470041,867 Medical Center,Salem,Marion,WR,44.9431,-123.0059,181.6,12/15/2004,Present,,SLAMS - O3
+31065,DFS,Detroit Lake Forest Service ,410470123,Forest Service Ranger Station,Detroit Lake,Linn,WR,44.72831,-122.18276,501,6/15/2015,Present,,
+10139,SEL,Portland SE Lafayette,410510080,5824 SE LAFAYETTE,Portland,Multnomah,NWR,45.4966,-122.6029,69,12/1/1980,Present,NCORE,"NATTS  - PM2.5, PM10, O3, NO2, CO, SO2"
+25606,JHS,Jefferson HS,410511191,"5210 N Kerby Ave, Portland",Portland,Multnomah,NWR,45.5609,-122.67152,,,Present,,
+31043,GLC,Gresham Learning Centennial ,410512008,Gresham Learning Centennial - 17630 SE Main St. Portland OR. 97233,Gresham,Multnomah,NWR,45.51198,-122.48203,77,12/1/2016,3/31/2018,1 year long project,
+31073,PHS,Portland Humboldt School,410512010,4915 N Gantenbein Ave,Portland,Multnomah,NWR,45.558081,-122.670985,64,,Present,NATTS,
+10146,PMC,Pendleton McKay Creek,410590121,3745 SW Marshall Place,Pendleton,Umatilla,ER,45.6519,-118.8232,318.8,10/1/1991,Present,,
+31000,HMA,Hermiston Municipal Airport,410591003,1600 Airport Way,Hermiston,Umatilla,ER,45.82889,-119.26331,194,2/27/2007,Present,,SLAMS - O3
+31003,CCH,Cove City Hall,410610120,504 Alder St,Cove,Union,ER,45.3008,-117.8128,881.79,7/14/2007,Present,Field Burnning,
+31070,LHN,La Grande Hall & North ,410610123,"1305 N Willow Street, La Grande",La Grande,Union,ER,45.323625,-118.078063,844,12/10/2003,Present,NATTS/PM10 SLAMS,
+10162,EFS,Enterprise Forest Service,410630001,88401 Hwy 82,Enterprise,Wallowa,ER,45.4263,-117.2967,1163,7/1/1994,Present,Forest Health,
+21252,TDC,The Dalles Cherry Heights,410650007,1112 Cherry Heights,The Dalles,Wasco,ER,45.6024,-121.2034,86.26,8/6/1999,Present,,
+31967,HHF,Hillsboro Hare Field,410670004,1149 NE Grant St.,Hillsboro,Washington,NWR,45.5285,-122.9724,26.8,1/1/2005,Present,,SLAMS -PM2.5
+31039,TBC,Tualatin – I-5,410670005,6745 Bradbury Court,Tualatin,Washington,NWR,45.3997,-122.7451,53,4/21/2014,Present,Near Road Site,"SLAMS - PM2.5, O3, NO2, CO"
+20481,BHP,Beaverton Highland Park School,410670111,7000 SW Wilson St,Beaverton,Washington,NWR,45.4702,-122.8162,58,8/28/1999,Present,,
+31075,PCH,Portland Cully Helensview School (PCH),410512011, 8678 NE Sumner St. ,Portland,Multnomah,NWR,45.5625,-122.575278,23,tbd,,1 year long project,
+31074,TWL,The Dalles Library (Wasco Co. Library),410650008,"722 Court St., The Dalles, OR 97058",The Dalles,Wasco,ER,45.598384,-121.184229,55,,Present,,
