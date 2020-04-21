@@ -25,14 +25,17 @@ get_stn_data <- function(stn = 410510080, yrs_to_get = year(today() - 1), pollut
                        Qualifier = as.character(), stringsAsFactors = FALSE)
   
   n <- length(yrs_to_get)
-  for (i in 1:n){    
+  for (i in 1:n) {    
     yr <- yrs_to_get[i]
     in_file <- paste0("data/or_hourly_", pollutant_to_get, "_", yr, ".feather")
     df <- read_feather(in_file)
     df$stn_id <- df$State.Code*10000000 + df$County.Code*10000 + df$Site.Num
     df$dt_local <- paste0(df$Date.Local, " ", df$Time.Local, ":00")
-    df_yr <- df %>% filter(stn_id == stn) %>%
-      select(stn_id, POC, dt_local, Date.Local, Time.Local, Sample.Measurement, Qualifier)
+    df_yr <- df %>% 
+             filter(stn_id == stn) %>%
+             mutate(Sample.Measurement = case_when( (Units.of.Measure  == "Parts per million") ~ Sample.Measurement*1000,
+                                                     TRUE ~ Sample.Measurement)) %>%
+            select(stn_id, POC, dt_local, Date.Local, Time.Local, Sample.Measurement, Qualifier)
     out_df <- rbind(df_yr, out_df)
   }
   return(out_df)
