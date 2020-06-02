@@ -32,6 +32,7 @@ create_daily_summary <- function(df) {
   daily_summary$daynum <- yday(daily_summary$day)
   daily_summary$week_num <- trunc((daily_summary$daynum - 2 + wday(paste0(daily_summary$year, "-01-01"), week_start = 1))/7) + 1
   daily_summary$dayleap <- daily_summary$daynum
+  daily_summary$daynum_adj_by_wk <- daily_summary$daynum + wday(paste0(daily_summary$year, "-01-01"), week_start = 1) - 1
   yrs <- unique(daily_summary$year)
   for (yr in yrs) {
     if ( yr/4 - trunc(yr/4) > 0) {

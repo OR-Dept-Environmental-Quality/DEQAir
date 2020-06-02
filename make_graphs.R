@@ -9,12 +9,6 @@ library(zeallot)    ## %<-% operator for multiple assignments
 stn_info <- read.csv("data/stn_info.csv", stringsAsFactors = FALSE)
 stn_info$stn_id <- as.numeric(stn_info$stn_id)
 stn_info$latitude <- as.numeric(stn_info$latitude)
-stations <- list(410510080, 410670005, 410670004, 410512011, 
-                 410090004, 410670111,410390059, 410030013, 410170120,
-                 410290203, 410470041, 410330114, 410650007, 410130100)
-
-yrs_to_get <- c(2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018)
-pollutant_to_get <- "88502"
 
 year_colors <- c( "2010" = '#d0d0d0',
                   "2011" = '#d0d0d0',
@@ -46,6 +40,11 @@ get_months_to_plot <- function(df, months_to_plot = "all") {
     return(q1_df)
   }
   
+  if (months_to_plot == "to4" ) {
+    q1_df <- df %>% filter(month == 1 | month == 2 | month == 3 | month == 4)
+    return(q1_df)
+  }
+  
   months_df <- df[FALSE,]
   for (mon in months_to_plot) {
     mon_df <- df %>% filter(month == mon)
@@ -54,6 +53,8 @@ get_months_to_plot <- function(df, months_to_plot = "all") {
   return(months_df)
 }
 
+
+## change this to always begin on a Monday...to do that, need to know year...it
 get_breaks_labels_for_months <- function(months_to_plot) {
   month_breaks <- c(31,60,91,121,152,182,213,244,274,305,335,366)
   month_labels <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
@@ -61,6 +62,15 @@ get_breaks_labels_for_months <- function(months_to_plot) {
   q1_labels <- c("01-Jan", "08-Jan", "15-Jan", "22-Jan", "29-Jan",
                  "05-Feb", "12-Feb", "19-Feb", "26-Feb",
                  "04-Mar", "11-Mar", "18-Mar", "25-Mar")
+  to4_breaks <- c(1, 8, 15, 22, 29, 
+                  36, 43, 50, 57, 
+                  64, 71, 78, 85, 
+                  92, 99, 106, 113, 120)
+  to4_labels <- c("01-Jan", "08-Jan", "15-Jan", "22-Jan", "29-Jan",
+                 "05-Feb", "12-Feb", "19-Feb", "26-Feb",
+                 "04-Mar", "11-Mar", "18-Mar", "25-Mar",
+                 "01-Apr", "08-Apr", "15-Apr", "22-Apr", "29-Apr")
+  
   jan_breaks <- c(1, 8, 15, 22, 29)
   jan_labels <- c("01-Jan", "08-Jan", "15-Jan", "22-Jan", "29-Jan")
   feb_breaks <- c(32, 39, 46, 53, 60)
@@ -71,6 +81,9 @@ get_breaks_labels_for_months <- function(months_to_plot) {
   apr_labels <- c("01-Apr", "08-Apr", "15-Apr", "22-Apr", "29-Apr")
   may_breaks <- c(122, 129, 136, 143, 150)
   may_labels <- c("01-May", "08-May", "15-May", "22-May", "29-May")
+  jun_breaks <- c(153, 160, 167, 174, 181)
+  jun_labels <- c("01-Jun", "08-Jun", "15-Jun", "22-Jun", "29-Jun")
+  
   if (months_to_plot == "all") {
     ret_breaks <- month_breaks
     ret_labels <- month_labels
@@ -79,6 +92,11 @@ get_breaks_labels_for_months <- function(months_to_plot) {
     ret_breaks <- q1_breaks
     ret_labels <- q1_labels
   }
+  if (months_to_plot == "to4") {
+    ret_breaks <- to4_breaks
+    ret_labels <- to4_labels
+  }
+  
   
   if (months_to_plot== 1) {
     ret_breaks <- jan_breaks
@@ -114,7 +132,7 @@ make_point_graph <- function(df, months_to_plot, title_string) {
   plot_df <- get_months_to_plot(df, months_to_plot)
   
   breaks_labels <- get_breaks_labels_for_months(months_to_plot)
-  g <- ggplot() + geom_point(data = plot_df, aes(x=dayleap, y = mean, color = as.factor(year )), alpha = 0.6) + 
+  g <- ggplot() + geom_point(data = plot_df, aes(x=dayleap, y = mean, color = as.factor(year )), alpha = 0.8) + 
     scale_color_manual( values = year_colors) +
     ggtitle(title_string) + ylab("PM2.5 (ug/m3") +
     scale_x_continuous( breaks = breaks_labels[[1]],
@@ -198,7 +216,7 @@ make_wline_graph <- function(df, months_to_plot, hilit_year, title_string) {
   hilit_df <- plot_df %>% filter(year ==  hilit_year)
   stat_df <- plot_df %>% 
     filter(year != hilit_year) %>% 
-    group_by(daynum_adj_week) %>%
+    group_by(daynum_adj_by_wk) %>%
     summarise( min_val = min(mean, na.rm = TRUE),
                max_val = max(mean, na.rm = TRUE),
                pct90 =   quantile(mean, 0.9, na.rm = TRUE),
@@ -207,11 +225,11 @@ make_wline_graph <- function(df, months_to_plot, hilit_year, title_string) {
                pct20 =   quantile(mean, 0.2, na.rm = TRUE))
   #  breaks_labels <- get_breaks_labels_for_months(months_to_plot)
   g <- ggplot() +
-    geom_ribbon(data = stat_df, aes(x=daynum_adj_week, 
+    geom_ribbon(data = stat_df, aes(x=daynum_adj_by_wk, 
                                     ymax=pct90, 
                                     ymin=pct10), fill="#aeaeae", alpha=.4) +
-    geom_line(data = hilit_df, aes(x = daynum_adj_week, y = mean), size = 0.6, color = "red", alpha = 0.6) +
-    geom_point(data = hilit_df, aes(x = daynum_adj_week, y = mean, shape = wdwe), size = 1.8, color = "red", alpha = 0.8) +
+    geom_line(data = hilit_df, aes(x = daynum_adj_by_wk, y = mean), size = 0.6, color = "red", alpha = 0.6) +
+    geom_point(data = hilit_df, aes(x = daynum_adj_by_wk, y = mean, shape = wdwe), size = 1.8, color = "red", alpha = 0.8) +
     scale_shape_manual(values = c(16, 1),
                        breaks = c("WD", "WE"),
                        labels = c("week-day", "week-end")) +
@@ -220,7 +238,7 @@ make_wline_graph <- function(df, months_to_plot, hilit_year, title_string) {
     theme(legend.title = element_blank()) +
     scale_x_continuous( breaks = c(1, 15, 29, 43, 57, 71, 85, 99, 113, 127),
                         labels = c("01", "03", "05", "07", "09", 
-                                   "11", "13", "15", "17", "20" )) 
+                                   "11", "13", "15", "17", "19" )) 
   #  theme(axis.title.x = element_blank("Week of Year"))
   
 }
